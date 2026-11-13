@@ -1,0 +1,19 @@
+#!/bin/bash -e
+#SBATCH --account=uoo03493
+#SBATCH --job-name    random_forest
+#SBATCH --partition=milan
+#SBATCH --cpus-per-task 15	
+#SBATCH --mem 204800MB
+#SBATCH --time        90:00:00
+#SBATCH --output=/nesi/nobackup/uoo03493/Yue/stacking_gfactor_modelling_7.0/slurm_out/rf.%J.out # Include the job ID in the names of
+#SBATCH --error=/nesi/nobackup/uoo03493/Yue/stacking_gfactor_modelling_7.0/slurm_error/rf.%J.err # the output and error files
+
+module load R/4.3.2-foss-2023a
+
+DATA=$1
+
+# Help R to flush errors and show overall job progress by printing
+# "executing" and "finished" statements.
+echo "Executing R ..."
+srun Rscript random_forest_tfmri.R $DATA
+echo "R finished."
